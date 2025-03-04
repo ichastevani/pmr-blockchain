@@ -44,7 +44,7 @@ fun SignUpScreen(navController: NavHostController) {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        color = Color(0xFF608BC1) // Background color diperbarui
     ) {
         Column(
             modifier = Modifier
@@ -155,4 +155,3 @@ private fun SignUpScreenPreview() {
         SignUpScreen(navController = rememberNavController())
     }
 }
-

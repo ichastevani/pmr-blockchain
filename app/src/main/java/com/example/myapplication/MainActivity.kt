@@ -36,14 +36,17 @@ class MainActivity : ComponentActivity() {
                         isConnecting = uiState.isConnecting,
                         balance = uiState.balance,
                         eventSink = viewModel::eventSink,
-                        navController = navController // Pass navController for navigation
+                        navController = navController
                     )
                 }
                 composable("login_screen") {
-                    LoginScreen(navController = navController) // Navigate to Login Screen
+                    LoginScreen(navController = navController)
                 }
                 composable("signup_screen") {
-                    SignUpScreen(navController = navController) // Navigate to Sign Up Screen
+                    SignUpScreen(navController = navController)
+                }
+                composable("dashboard_screen") {
+                    DashboardScreen(navController = navController) // Tambahkan DashboardScreen
                 }
             }
 

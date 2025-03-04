@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -18,6 +19,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.data.EventSink
+
 @Composable
 fun WalletConnectScreen(
     isConnecting: Boolean,
@@ -26,7 +28,7 @@ fun WalletConnectScreen(
     navController: NavHostController // Menambahkan navController untuk navigasi
 ) {
 
-    Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF1E3A8A)) {  // Background color
+    Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF608BC1)) {  // Background color diperbarui
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -40,13 +42,14 @@ fun WalletConnectScreen(
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
-                modifier = Modifier.padding(bottom = 10.dp)
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp)
             )
             Text(
                 "Stay in control of your medical data\nanytime, anywhere",
                 fontSize = 16.sp,
                 color = Color.White,
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 32.dp)
             )
 
