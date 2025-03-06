@@ -24,6 +24,8 @@ import com.example.myapplication.screens.PermissionsScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.Alignment
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -105,31 +107,54 @@ fun BottomNavigationBar(navController: NavHostController) {
     )
 
     NavigationBar(
-        modifier = Modifier.fillMaxWidth().height(70.dp),
-        tonalElevation = 4.dp
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(70.dp),
+        tonalElevation = 4.dp,
+        containerColor = androidx.compose.ui.graphics.Color(0xFF133E87) // Warna latar belakang
     ) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
         navItems.forEach { (label, icon, route) ->
+            val isSelected = currentRoute == route
+
             NavigationBarItem(
-                icon = {
-                    when (icon) {
-                        is ImageVector -> Icon(imageVector = icon, contentDescription = label)
-                        is Painter -> Icon(painter = icon, contentDescription = label)
-                        else -> throw IllegalArgumentException("Unsupported icon type")
+                selected = isSelected,
+                onClick = {
+                    if (currentRoute != route) {
+                        navController.navigate(route) {
+                            popUpTo(navController.graph.startDestinationId) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
                 },
-                label = { Text(text = label) },
-                selected = currentRoute == route,
-                onClick = {
-                    navController.navigate(route) {
-                        popUpTo("dashboard_screen") { inclusive = false }
-                        launchSingleTop = true
+                icon = {
+                    when (icon) {
+                        is ImageVector -> Icon(
+                            imageVector = icon,
+                            contentDescription = label,
+                            modifier = Modifier.size(24.dp),
+                            tint = if (isSelected) androidx.compose.ui.graphics.Color.White else androidx.compose.ui.graphics.Color(0xFFB0C4DE) // Warna ikon
+                        )
+                        is Painter -> Icon(
+                            painter = icon,
+                            contentDescription = label,
+                            modifier = Modifier.size(24.dp),
+                            tint = if (isSelected) androidx.compose.ui.graphics.Color.White else androidx.compose.ui.graphics.Color(0xFFB0C4DE) // Warna ikon
+                        )
                     }
+                },
+                label = {
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.labelSmall,
+                        maxLines = 1,
+                        color = if (isSelected) androidx.compose.ui.graphics.Color.White else androidx.compose.ui.graphics.Color(0xFFB0C4DE) // Warna teks
+                    )
                 },
                 alwaysShowLabel = true
             )
         }
     }
 }
-

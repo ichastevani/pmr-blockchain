@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -32,6 +34,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 
 @Composable
 fun SignUpScreen(navController: NavHostController) {
@@ -57,13 +63,13 @@ fun SignUpScreen(navController: NavHostController) {
                 "Create Your Account",
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF1E3A8A),
+                color = Color.White,
                 modifier = Modifier.padding(bottom = 10.dp)
             )
             Text(
                 "Sign up to take full control of your medical data",
                 fontSize = 16.sp,
-                color = Color(0xFF1E3A8A),
+                color = Color.White,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 32.dp)
             )
@@ -109,17 +115,20 @@ fun SignUpScreen(navController: NavHostController) {
                     .padding(bottom = 16.dp),
                 singleLine = true
             )
+
             // Doctor or Patient radio buttons
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Doctor", color = Color(0xFF1E3A8A))
+                Text("Doctor", color = Color.White)
                 RadioButton(
                     selected = selectedRole == "Doctor",
-                    onClick = { selectedRole = "Doctor" }
+                    onClick = { selectedRole = "Doctor" },
+                    colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF1D4ED8))
                 )
-                Text("Patient", color = Color(0xFF1E3A8A))
+                Text("Patient", color = Color.White)
                 RadioButton(
                     selected = selectedRole == "Patient",
-                    onClick = { selectedRole = "Patient" }
+                    onClick = { selectedRole = "Patient" },
+                    colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF1D4ED8))
                 )
             }
 
@@ -127,7 +136,7 @@ fun SignUpScreen(navController: NavHostController) {
                 onClick = { /* Handle Sign Up logic */ },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = 50.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1D4ED8))  // Blue color for sign up
             ) {
                 Text("Sign Up", color = Color.White, fontSize = 18.sp)
@@ -136,12 +145,23 @@ fun SignUpScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Text to navigate back to Login
-            Text(
-                "Already have an account? Log in here",
-                color = Color(0xFF1E3A8A),
-                fontSize = 14.sp,
-                modifier = Modifier.clickable {
-                    navController.navigate("login_screen")  // Navigate to Login screen
+            val loginText = buildAnnotatedString {
+                append("Already have an account? ")
+                pushStringAnnotation(tag = "login", annotation = "login_screen")
+                withStyle(style = SpanStyle(color = Color(0xFF1D4ED8), textDecoration = TextDecoration.Underline)) {
+                    append("Log in here")
+                }
+                pop()
+            }
+
+            ClickableText(
+                text = loginText,
+                style = MaterialTheme.typography.bodySmall.copy(color = Color.White),
+                onClick = { offset ->
+                    loginText.getStringAnnotations(tag = "login", start = offset, end = offset)
+                        .firstOrNull()?.let {
+                            navController.navigate("login_screen")
+                        }
                 }
             )
         }

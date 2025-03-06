@@ -22,29 +22,38 @@ fun PermissionsScreen(navController: NavController? = null) {
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text("Permissions", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        Row(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             tabs.forEachIndexed { index, title ->
-                Box(
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .weight(1f)
-                        .background(
-                            if (selectedTab == index) Color.Gray else Color.LightGray,
-                            RoundedCornerShape(8.dp)
-                        )
                         .clickable { selectedTab = index }
-                        .padding(12.dp),
-                    contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = title,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
-                        color = if (selectedTab == index) Color.White else Color.Black
+                        color = Color(0xFF121826)
                     )
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    if (selectedTab == index) {
+                        Box(
+                            modifier = Modifier
+                                .height(3.dp)
+                                .width(40.dp)
+                                .background(Color(0xFF133E87))
+                        )
+                    }
                 }
             }
         }
-        Divider(color = Color.Gray, thickness = 1.dp)
+
 
         when (selectedTab) {
             0 -> NotificationList()
@@ -87,14 +96,14 @@ fun NotificationCard(notification: NotificationItem) {
                     colors = ButtonDefaults.buttonColors(Color.Blue),
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("Approve View")
+                    Text("View")
                 }
                 Button(
                     onClick = { /* Handle approve edit */ },
                     colors = ButtonDefaults.buttonColors(Color.DarkGray),
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("Approve Edit")
+                    Text("Edit")
                 }
                 Button(
                     onClick = { /* Handle reject */ },
