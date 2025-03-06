@@ -63,6 +63,7 @@ class MainActivity : ComponentActivity() {
                             composable("permissions_screen") { PermissionsScreen(navController) }
                             composable("activity_log_screen") { ActivityLogScreen(navController) }
                             composable("profile_screen") { ProfileScreen(navController) }
+                            composable("add_new_record") { AddNewRecordScreen(navController) }
                         }
                     }
                 }
@@ -156,5 +157,13 @@ fun BottomNavigationBar(navController: NavHostController) {
                 alwaysShowLabel = true
             )
         }
+    }
+}
+@Composable
+fun AppNavigation() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "record_screen") {
+        composable("record_screen") { RecordScreen(navController) }
+        composable("add_new_record") { AddNewRecordScreen(navController) }
     }
 }

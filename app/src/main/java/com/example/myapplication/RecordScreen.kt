@@ -87,7 +87,7 @@ fun RecordScreen(navController: NavController) {
             ) {
                 Button(
                     onClick = {
-                        // TODO: Add New Record
+                        navController.navigate("add_new_record") // Navigasi ke AddNewRecordScreen
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF1D4ED8)
@@ -95,6 +95,7 @@ fun RecordScreen(navController: NavController) {
                 ) {
                     Text("Add New Record")
                 }
+
 
                 Box {
                     Button(
