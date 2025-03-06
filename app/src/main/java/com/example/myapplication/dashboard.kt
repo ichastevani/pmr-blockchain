@@ -47,60 +47,6 @@ fun DashboardScreen(navController: NavHostController) {
             }
         }
 
-        // Konten berdasarkan tab yang dipilih
-        Box(modifier = Modifier.weight(1f)) {
-            when (selectedTab) {
-                0 -> Text("Home Screen", modifier = Modifier.fillMaxSize().padding(16.dp))
-                1 -> Text("Record Screen", modifier = Modifier.fillMaxSize().padding(16.dp))
-                2 -> Text("Permissions Screen", modifier = Modifier.fillMaxSize().padding(16.dp))
-                3 -> Text("Log Activity Screen", modifier = Modifier.fillMaxSize().padding(16.dp))
-                4 -> Text("Profile Screen", modifier = Modifier.fillMaxSize().padding(16.dp))
-            }
-        }
-
-        // Daftar tab navigasi (menggunakan drawable untuk History)
-        val navItems = listOf(
-            "Home" to Icons.Default.Home,
-            "Record" to Icons.Default.List,
-            "Permissions" to Icons.Default.Lock,
-            "Activity" to painterResource(id = R.drawable.baseline_history_24), // Pakai drawable
-            "Profile" to Icons.Default.Person
-        )
-
-        // Bottom Navigation Bar
-        NavigationBar(
-            modifier = Modifier.fillMaxWidth().height(70.dp), // Tinggikan navbar
-            tonalElevation = 4.dp
-        ) {
-            navItems.forEachIndexed { index, (label, icon) ->
-                NavigationBarItem(
-                    icon = {
-                        if (icon is androidx.compose.ui.graphics.vector.ImageVector) {
-                            Icon(icon, contentDescription = label, modifier = Modifier.size(24.dp))
-                        } else {
-                            Icon(
-                                painter = icon as androidx.compose.ui.graphics.painter.Painter,
-                                contentDescription = label,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        }
-                    },
-                    label = {
-                        Text(
-                            text = label,
-                            fontSize = 10.sp, // Ukuran font lebih kecil
-                            textAlign = TextAlign.Center,
-                            maxLines = 1,
-                            softWrap = false // Pastikan teks tidak dipotong
-                        )
-                    },
-                    selected = selectedTab == index,
-                    onClick = { selectedTab = index },
-                    alwaysShowLabel = true
-                )
-            }
-        }
-
 
     }
 }
