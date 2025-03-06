@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -25,12 +26,12 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 @Composable
 fun RecordScreen(navController: NavController) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedFilter by remember { mutableStateOf("Type Record") }
+    var selectedFilter by rememberSaveable { mutableStateOf("All Record") }
     var searchText by remember { mutableStateOf("") }
     var showDetailScreen by remember { mutableStateOf(false) }
     var selectedRecord by remember { mutableStateOf<Pair<String, String>?>(null) }
 
-    val filterOptions = listOf("Type Record", "Vaccination", "Radiology", "Diagnostic", "Prescription", "Surgical", "Allergy")
+    val filterOptions = listOf("All Record", "Vaccination", "Radiology", "Diagnostic", "Prescription", "Surgical", "Allergy")
 
     val allRecords = listOf(
         "Vaccination Records" to "COVID-19 Vaccine",
@@ -42,7 +43,7 @@ fun RecordScreen(navController: NavController) {
     )
 
     val filteredRecords = allRecords.filter {
-        (selectedFilter == "Type Record" || it.first.contains(selectedFilter, ignoreCase = true)) &&
+        (selectedFilter == "All Record" || it.first.contains(selectedFilter, ignoreCase = true)) &&
                 (searchText.isEmpty() || it.first.contains(searchText, ignoreCase = true))
     }
 
@@ -98,13 +99,23 @@ fun RecordScreen(navController: NavController) {
                 Box {
                     Button(
                         onClick = { expanded = true },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF1D4ED8)
-                        )
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1D4ED8))
                     ) {
-                        Text(selectedFilter)
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = selectedFilter, color = Color.White)
+                            Spacer(modifier = Modifier.width(4.dp)) // Jarak antara teks dan ikon
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = "Dropdown Arrow",
+                                tint = Color.White
+                            )
+                        }
                     }
-                    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
                         filterOptions.forEach { option ->
                             DropdownMenuItem(
                                 text = { Text(option) },
